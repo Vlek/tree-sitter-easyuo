@@ -1,9 +1,154 @@
 {
   "name": "easyuo",
+  "word": "identifier",
   "rules": {
-    "source_file": {
-      "type": "STRING",
-      "value": "hello"
+    "script": {
+      "type": "REPEAT",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_compound_statement"
+          }
+        ]
+      }
+    },
+    "_compound_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "subroutine_definition"
+        }
+      ]
+    },
+    "subroutine_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "sub"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "return"
+        }
+      ]
+    },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[%\\!\\*\\#][a-zA-Z0-9]+"
+    },
+    "_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_builtin_variables"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "integer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
+    },
+    "string": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9]+"
+    },
+    "integer": {
+      "type": "PATTERN",
+      "value": "[1-9][0-9]*"
+    },
+    "constant": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "dot"
+            },
+            {
+              "type": "STRING",
+              "value": "false"
+            },
+            {
+              "type": "STRING",
+              "value": "smc"
+            },
+            {
+              "type": "STRING",
+              "value": "spc"
+            },
+            {
+              "type": "STRING",
+              "value": "true"
+            }
+          ]
+        }
+      ]
+    },
+    "_builtin_variables": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "constant"
+        }
+      ]
+    },
+    "_simple_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "lines_per_cycle_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "lines_per_cycle_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "linesPerCycle"
+        },
+        {
+          "type": "FIELD",
+          "name": "lines",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        }
+      ]
     }
   },
   "extras": [

@@ -1,0 +1,11 @@
+=============
+linesPerCycle
+=============
+
+linesPerCycle 10
+
+---
+
+(script
+    (lines_per_cycle_statement
+      lines: (string)))
